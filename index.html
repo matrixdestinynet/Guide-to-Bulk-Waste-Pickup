@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>County-by-County Guide: Bulk Waste Pickup in Hernando, Pasco, Citrus & Sumter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0d9488;
+            --primary-light: #ccfbf1;
+            --hernando-color: #2563eb;
+            --pasco-color: #16a34a;
+            --citrus-color: #f97316;
+            --sumter-color: #8b5cf6;
+            --florida-blue: #1e3a8a;
+            --light: #ffffff;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --gray-light: #f8fafc;
+            --border-radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: var(--dark);
+            line-height: 1.7;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #0f766e 0%, var(--primary) 100%);
+            color: white;
+            padding: 60px 40px 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 3rem;
+            opacity: 0.1;
+        }
+
+        h1 {
+            font-size: 2.3rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            font-weight: 300;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* County Grid */
+        .county-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 40px;
+        }
+
+        .county-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+            border-top: 6px solid;
+            transition: transform 0.3s ease;
+        }
+
+        .county-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .hernando-card { border-top-color: var(--hernando-color); }
+        .pasco-card { border-top-color: var(--pasco-color); }
+        .citrus-card { border-top-color: var(--citrus-color); }
+        .sumter-card { border-top-color: var(--sumter-color); }
+
+        .county-header {
+            padding: 25px 25px 15px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .county-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .hernando-card .county-icon { color: var(--hernando-color); }
+        .pasco-card .county-icon { color: var(--pasco-color); }
+        .citrus-card .county-icon { color: var(--citrus-color); }
+        .sumter-card .county-icon { color: var(--sumter-color); }
+
+        .county-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .county-subtitle {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .county-body {
+            padding: 25px;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 12px;
+            align-items: baseline;
+        }
+
+        .info-label {
+            font-weight: 600;
+            min-width: 110px;
+            color: var(--dark);
+        }
+
+        .info-value {
+            color: var(--gray);
+        }
+
+        .limit-badge {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        /* Comparison Table */
+        .comparison-section {
+            padding: 40px;
+            background: var(--gray-light);
+            border-top: 1px solid var(--gray-light);
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .comparison-table th {
+            background: var(--primary);
+            color: white;
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 18px 15px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .prohibited-tag {
+            display: inline-block;
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        /* Transfer Station Section */
+        .transfer-section {
+            padding: 40px;
+        }
+
+        .station-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .station-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--primary);
+        }
+
+        .station-name {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 40px;
+            background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+            text-align: center;
+        }
+
+        .resource-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .resource-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 14px 28px;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-light);
+        }
+
+        .resource-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+            color: #0f766e;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #0f766e;
+            color: white;
+        }
+
+        /* Minimal Animation */
+        @keyframes gentlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .pulse-element {
+            animation: gentlePulse 4s infinite ease-in-out;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .county-grid, .comparison-section, .transfer-section, .cta-section {
+                padding: 25px;
+            }
+            
+            .county-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .resource-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .resource-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .info-label {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-icon">
+                <i class="fas fa-trash-alt"></i>
+            </div>
+            <h1>A County-by-County Guide to Bulk Waste Pickup</h1>
+            <p class="tagline">Hernando • Pasco • Citrus • Sumter — Rules, Schedules & Limits</p>
+            <div style="background: rgba(255, 255, 255, 0.15); color: white; padding: 10px 20px; border-radius: 50px; display: inline-block; margin-top: 10px; font-size: 0.9rem;">
+                <i class="fas fa-magnifying-glass"></i> Essential Public Reference for Homeowners
+            </div>
+        </header>
+
+        <!-- County Cards -->
+        <div class="county-grid">
+            <!-- Hernando County -->
+            <div class="county-card hernando-card">
+                <div class="county-header">
+                    <div class="county-icon">
+                        <i class="fas fa-umbrella-beach"></i>
+                    </div>
+                    <div class="county-title">Hernando County</div>
+                    <div class="county-subtitle">Unincorporated Areas Only</div>
+                </div>
+                <div class="county-body">
+                    <div class="info-row">
+                        <span class="info-label">📅 Schedule:</span>
+                        <span class="info-value">Week of 1st & 3rd Monday</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📦 Volume Limit:</span>
+                        <span class="info-value">6 cubic yards (≈ pickup truck load)</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📞 Contact:</span>
+                        <span class="info-value">352-754-4057</span>
+                    </div>
+                    <div class="limit-badge">⚡ Special pickup: $45 minimum</div>
+                    <div style="margin-top: 20px;">
+                        <p style="font-weight: 600; margin-bottom: 8px;">🚫 Prohibited:</p>
+                        <span class="prohibited-tag">Paint</span>
+                        <span class="prohibited-tag">Chemicals</span>
+                        <span class="prohibited-tag">Tires</span>
+                        <span class="prohibited-tag">Batteries</span>
+                        <span class="prohibited-tag">Electronics</span>
+                        <span class="prohibited-tag">Yard debris</span>
+                    </div>
+                    <p style="margin-top: 20px; color: var(--gray); font-size: 0.9rem;"><strong>Note:</strong> Yard waste collected separately on green waste schedule. E-waste accepted at transfer station only.</p>
+                </div>
+            </div>
+
+            <!-- Pasco County -->
+            <div class="county-card pasco-card pulse-element">
+                <div class="county-header">
+                    <div class="county-icon">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <div class="county-title">Pasco County</div>
+                    <div class="county-subtitle">West & East Zones</div>
+                </div>
+                <div class="county-body">
+                    <div class="info-row">
+                        <span class="info-label">📅 Schedule:</span>
+                        <span class="info-value">4x/year (quarterly by zone)</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📦 Volume Limit:</span>
+                        <span class="info-value">6 cubic yards total</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📞 Contact:</span>
+                        <span class="info-value">727-847-2411</span>
+                    </div>
+                    <div class="limit-badge">⚡ Special pickup: $25-50</div>
+                    <div style="margin-top: 20px;">
+                        <p style="font-weight: 600; margin-bottom: 8px;">🚫 Prohibited:</p>
+                        <span class="prohibited-tag">Paint</span>
+                        <span class="prohibited-tag">Chemicals</span>
+                        <span class="prohibited-tag">Tires</span>
+                        <span class="prohibited-tag">Concrete</span>
+                        <span class="prohibited-tag">Dirt</span>
+                        <span class="prohibited-tag">Asbestos</span>
+                    </div>
+                    <p style="margin-top: 20px; color: var(--gray); font-size: 0.9rem;"><strong>Note:</strong> County offers "Recycle Rama" events for HHW and electronics. Check website for dates.</p>
+                </div>
+            </div>
+
+            <!-- Citrus County -->
+            <div class="county-card citrus-card">
+                <div class="county-header">
+                    <div class="county-icon">
+                        <i class="fas fa-fish"></i>
+                    </div>
+                    <div class="county-title">Citrus County</div>
+                    <div class="county-subtitle">Mandatory Franchise Areas</div>
+                </div>
+                <div class="county-body">
+                    <div class="info-row">
+                        <span class="info-label">📅 Schedule:</span>
+                        <span class="info-value">2x/year by zone</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📦 Volume Limit:</span>
+                        <span class="info-value">4 cubic yards max</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📞 Contact:</span>
+                        <span class="info-value">352-527-7670</span>
+                    </div>
+                    <div class="limit-badge">⚡ Special pickup: Not available</div>
+                    <div style="margin-top: 20px;">
+                        <p style="font-weight: 600; margin-bottom: 8px;">🚫 Prohibited:</p>
+                        <span class="prohibited-tag">Appliances (freon-free ok)</span>
+                        <span class="prohibited-tag">TVs</span>
+                        <span class="prohibited-tag">Tires</span>
+                        <span class="prohibited-tag">Yard waste</span>
+                    </div>
+                    <p style="margin-top: 20px; color: var(--gray); font-size: 0.9rem;"><strong>Note:</strong> All bulk items require trip to Central Landfill or transfer station. No on-call bulk pickup.</p>
+                </div>
+            </div>
+
+            <!-- Sumter County -->
+            <div class="county-card sumter-card">
+                <div class="county-header">
+                    <div class="county-icon">
+                        <i class="fas fa-golf"></i>
+                    </div>
+                    <div class="county-title">Sumter County</div>
+                    <div class="county-subtitle">Unincorporated & The Villages</div>
+                </div>
+                <div class="county-body">
+                    <div class="info-row">
+                        <span class="info-label">📅 Schedule:</span>
+                        <span class="info-value">2nd Tuesday monthly</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📦 Volume Limit:</span>
+                        <span class="info-value">No specified limit (reasonable)</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📞 Contact:</span>
+                        <span class="info-value">352-689-4400</span>
+                    </div>
+                    <div class="limit-badge">⚡ Special pickup: $15-50</div>
+                    <div style="margin-top: 20px;">
+                        <p style="font-weight: 600; margin-bottom: 8px;">🚫 Prohibited:</p>
+                        <span class="prohibited-tag">Hazardous waste</span>
+                        <span class="prohibited-tag">Liquid paint</span>
+                        <span class="prohibited-tag">Tires</span>
+                        <span class="prohibited-tag">Large appliances</span>
+                    </div>
+                    <p style="margin-top: 20px; color: var(--gray); font-size: 0.9rem;"><strong>Note:</strong> The Villages has separate HOA bulk collection; contact community management.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Comparison Table -->
+        <div class="comparison-section">
+            <h2 style="color: var(--dark); margin-bottom: 15px; text-align: center;">At-a-Glance Comparison</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>County</th>
+                        <th>Pickup Frequency</th>
+                        <th>Volume Limit</th>
+                        <th>Yard Waste</th>
+                        <th>Appliances</th>
+                        <th>Electronics</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Hernando</strong></td>
+                        <td>Bi-weekly (bulk zones)</td>
+                        <td>6 cu yd</td>
+                        <td>Separate collection</td>
+                        <td>✅ Freon-free</td>
+                        <td>❌ Transfer station</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pasco</strong></td>
+                        <td>Quarterly</td>
+                        <td>6 cu yd</td>
+                        <td>✅ Included</td>
+                        <td>✅ With tag ($5)</td>
+                        <td>✅ Recycle Rama</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Citrus</strong></td>
+                        <td>Semi-annual</td>
+                        <td>4 cu yd</td>
+                        <td>❌ Transfer station</td>
+                        <td>✅ Freon-free</td>
+                        <td>❌ Landfill only</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sumter</strong></td>
+                        <td>Monthly</td>
+                        <td>Reasonable use</td>
+                        <td>✅ Included</td>
+                        <td>❌ Special pickup</td>
+                        <td>❌ Transfer station</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p style="margin-top: 25px; text-align: center; color: var(--gray);"><i class="fas fa-info-circle"></i> All counties prohibit hazardous waste, paint, chemicals, and tires in bulk collection. Verify with your specific hauler.</p>
+        </div>
+
+        <!-- Transfer Station & Special Pickup -->
+        <div class="transfer-section">
+            <h2 style="color: var(--dark); margin-bottom: 15px; text-align: center;">When Bulk Pickup Isn't Enough</h2>
+            
+            <div class="station-grid">
+                <div class="station-card">
+                    <div class="station-name">🏭 Hernando County</div>
+                    <p><strong>Northwest Transfer Station:</strong> 14450 Landfill Rd, Brooksville</p>
+                    <p><strong>West Hernando Transfer Station:</strong> 5465 Commercial Way, Weeki Wachee</p>
+                    <p>🕒 Mon-Sat 8am-4pm • $25 minimum</p>
+                </div>
+                
+                <div class="station-card">
+                    <div class="station-name">🏭 Pasco County</div>
+                    <p><strong>West Pasco Transfer Station:</strong> 14820 State Rd 52, Hudson</p>
+                    <p><strong>East Pasco Transfer Station:</strong> 9620 Handcart Rd, Dade City</p>
+                    <p>🕒 Mon-Sat 7am-5pm • $20 minimum</p>
+                </div>
+                
+                <div class="station-card">
+                    <div class="station-name">🏭 Citrus County</div>
+                    <p><strong>Central Landfill:</strong> 2490 W Newberry Ln, Newberry</p>
+                    <p><strong>Inglis Transfer Station:</strong> 110 NE 1st St, Inglis</p>
+                    <p>🕒 Mon-Sat 7:30am-4pm • $22/ton</p>
+                </div>
+                
+                <div class="station-card">
+                    <div class="station-name">🏭 Sumter County</div>
+                    <p><strong>Sumter County Landfill:</strong> 4375 SE 180th St, Sumterville</p>
+                    <p><strong>Lake Panasoffkee Transfer Station:</strong> 3690 CR 501, Wildwood</p>
+                    <p>🕒 Mon-Sat 7am-4pm • $20 minimum</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Common Prohibited Items -->
+        <section style="padding: 30px; background: #fefce8; border-top: 1px solid #fde047; border-bottom: 1px solid #fde047;">
+            <h2 style="color: var(--dark); margin-bottom: 15px; text-align: center;">Items Requiring Special Handling (All Counties)</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 800px; margin: 0 auto;">
+                <div style="background: white; padding: 15px; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 1.8rem; color: var(--primary); margin-bottom: 5px;">🖥️</div>
+                    <p style="font-weight: 600;">Electronics</p>
+                    <p style="font-size: 0.9rem;">TVs, computers, monitors</p>
+                </div>
+                <div style="background: white; padding: 15px; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 1.8rem; color: var(--primary); margin-bottom: 5px;">🔋</div>
+                    <p style="font-weight: 600;">Batteries</p>
+                    <p style="font-size: 0.9rem;">Auto, lithium, rechargeable</p>
+                </div>
+                <div style="background: white; padding: 15px; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 1.8rem; color: var(--primary); margin-bottom: 5px;">⛽</div>
+                    <p style="font-weight: 600;">Hazardous</p>
+                    <p style="font-size: 0.9rem;">Paint, oil, pesticides</p>
+                </div>
+                <div style="background: white; padding: 15px; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 1.8rem; color: var(--primary); margin-bottom: 5px;">🛞</div>
+                    <p style="font-weight: 600;">Tires</p>
+                    <p style="font-size: 0.9rem;">Passenger $3-5 fee</p>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 25px; color: var(--gray);"><i class="fas fa-exclamation-triangle" style="color: #eab308;"></i> Never place prohibited items with bulk waste. Violations may result in fines or loss of service.</p>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h3 style="color: var(--dark); margin-bottom: 15px;">Beyond County Limits?</h3>
+            <p style="color: var(--gray); margin-bottom: 20px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                For items not accepted in bulk programs—or when you need pickup before scheduled dates—professional junk removal services provide same-week, any-material solutions throughout the region.
+            </p>
+            
+            <div class="resource-links">
+                <a href="https://junk2gofl.com/" class="resource-btn btn-primary">
+                    <i class="fas fa-truck"></i> Hernando FL
+                </a>
+                <a href="https://maps.app.goo.gl/LbN8dkMchnp8DAi67" class="resource-btn">
+                    <i class="fas fa-map-marker-alt"></i> GMB
+                </a>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 12px; font-size: 0.9rem; color: var(--gray);">
+                <i class="fas fa-lightbulb" style="color: var(--primary); margin-right: 8px;"></i>
+                <strong>Homeowner tip:</strong> Always place bulk items curbside by 6 AM on your scheduled day. Separate materials (metal, yard waste, appliances) per county rules. If you live in a gated community or HOA, verify if private collection differs from county policy.
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 Nature Coast Bulk Waste Guide | Information compiled from county solid waste departments | Updated February 2026</p>
+            <p style="margin-top: 10px;">This guide covers unincorporated areas. City residents (Brooksville, Dade City, Inverness, Wildwood) should verify municipal schedules. Policies subject to change.</p>
+        </footer>
+    </div>
+</body>
+</html>
